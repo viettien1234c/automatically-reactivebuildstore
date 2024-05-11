@@ -1,21 +1,31 @@
-const combSort = (arr) => {
-  const shrinkFactor = 1.3;
-  let gap = arr.length;
-  let swapped = true;
-  while (gap > 1 || swapped) {
-    gap = Math.floor(gap / shrinkFactor);
-    if (gap < 1) {
-      gap = 1;
+function spiralOrder(matrix) {
+  if (matrix.length === 0) return [];
+  const result = [];
+  let top = 0;
+  let bottom = matrix.length - 1;
+  let left = 0;
+  let right = matrix[0].length - 1;
+  while (top <= bottom && left <= right) {
+    for (let i = left; i <= right; i++) {
+      result.push(matrix[top][i]);
     }
-    swapped = false;
-    let i = 0;
-    while (i + gap < arr.length) {
-      if (arr[i] > arr[i + gap]) {
-        [arr[i], arr[i + gap]] = [arr[i + gap], arr[i]];
-        swapped = true;
+    top++;
+    for (let i = top; i <= bottom; i++) {
+      result.push(matrix[i][right]);
+    }
+    right--;
+    if (top <= bottom) {
+      for (let i = right; i >= left; i--) {
+        result.push(matrix[bottom][i]);
       }
-      i++;
+      bottom--;
+    }
+    if (left <= right) {
+      for (let i = bottom; i >= top; i--) {
+        result.push(matrix[i][left]);
+      }
+      left++;
     }
   }
-  return arr;
-};
+  return result;
+}
