@@ -1,31 +1,16 @@
-function spiralOrder(matrix) {
-  if (matrix.length === 0) return [];
-  const result = [];
-  let top = 0;
-  let bottom = matrix.length - 1;
-  let left = 0;
-  let right = matrix[0].length - 1;
-  while (top <= bottom && left <= right) {
-    for (let i = left; i <= right; i++) {
-      result.push(matrix[top][i]);
+function numDecodings(s) {
+  const dp = new Array(s.length + 1).fill(0);
+  dp[0] = 1;
+  dp[1] = s[0] === "0" ? 0 : 1;
+  for (let i = 2; i <= s.length; i++) {
+    const oneDigit = parseInt(s.substring(i - 1, i));
+    const twoDigits = parseInt(s.substring(i - 2, i));
+    if (oneDigit >= 1) {
+      dp[i] += dp[i - 1];
     }
-    top++;
-    for (let i = top; i <= bottom; i++) {
-      result.push(matrix[i][right]);
-    }
-    right--;
-    if (top <= bottom) {
-      for (let i = right; i >= left; i--) {
-        result.push(matrix[bottom][i]);
-      }
-      bottom--;
-    }
-    if (left <= right) {
-      for (let i = bottom; i >= top; i--) {
-        result.push(matrix[i][left]);
-      }
-      left++;
+    if (twoDigits >= 10 && twoDigits <= 26) {
+      dp[i] += dp[i - 2];
     }
   }
-  return result;
+  return dp[s.length];
 }
